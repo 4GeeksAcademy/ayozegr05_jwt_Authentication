@@ -1,34 +1,41 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 import { Link } from "react-router-dom";
+import { Alert, Button, Modal } from "react-bootstrap";
+
 
 export const Private = () => {
 	const { store, actions } = useContext(Context);
+    const [showModal, setShowModal] = useState(true); // Cambiado a true por defecto
+
+    const handleClose = () => setShowModal(false);
+    const handleShow = () => setShowModal(true);
 
 	return (
 		<div className="d-flex justify-content-center">
-			{!store.token ? (
-				<div className="d-flex flex-column justify-content-center align-items-center">
-					<div className="modal" tabindex="-1">
-						<div className="modal-dialog">
-							<div className="modal-content">
-							<div className="modal-header">
-								<h5 className="modal-title">ERROOOOOOR</h5>
-							</div>
-							<div className="modal-body">
-								<p>You are not logged in. You do not have permission to view this page!!!</p>
-							</div>
-							<div className="modal-footer">
-								<button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-								<Link to="/login">
-									<button type="button" className="btn btn-primary">Login</button>
-								</Link>
-							</div>
-							</div>
-						</div>
-					</div>
+            {!store.token && showModal ? ( // Mostrar modal si no está logueado y showModal es true
+                <div className="d-flex flex-column justify-content-center align-items-center">
+                    {/* Modal */}
+                    <Modal show={showModal} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>ERROOOOOOR</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            You are not logged in. You do not have permission to view this page!!!
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <button type="button" className="btn btn-secondary" onClick={handleClose}>
+                                Close
+                            </button>
+                            <Link to="/login">
+                                <button type="button" className="btn btn-primary">
+                                    Login
+                                </button>
+                            </Link>
+                        </Modal.Footer>
+                    </Modal>
 					 <div className="alert alert-danger" role="alert">
                         You are not logged in. You do not have permission to view this page!!!
                     </div>
