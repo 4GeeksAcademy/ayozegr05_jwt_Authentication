@@ -17,6 +17,9 @@ export const Navbar = () => {
 					<Link to="/demo">
 						<button className="btn btn-primary">Check the Context in action</button>
 					</Link>
+					<Link to="/private">
+						<button className="btn btn-primary ms-3">Private</button>
+					</Link>
 				</div>
 				<div className="ml-auto">
 					{!store.token ?
@@ -24,9 +27,15 @@ export const Navbar = () => {
 							<button className="btn btn-primary">Log In</button>
 						</Link>
 					) : (
-						<Link to="/">
-						<button onClick={()=> actions.logout()} className="btn btn-primary">Log Out</button>
-					</Link>)
+						<div>
+							<Link to="/">
+								<button onClick={()=> actions.logout()} className="btn btn-primary">Log Out</button>
+							</Link>
+							<Link to="/login">
+								<button className="btn btn-primary ms-3">Log In</button>
+							</Link>
+						</div>
+						)
 					}
 				</div>
 			</div>

@@ -2,7 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			token: null,
-			message: null,
+			message: "",
 			demo: [
 				{
 					title: "FIRST",
@@ -52,6 +52,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if(token && token != "" && token != undefined) setStore({token: token})
 			},
 			logout: () => {
+				setStore({ message: "" })
 				const token = localStorage.removeItem("token")
 				console.log("APlication just loaded synching the local Storage Token")
 				setStore({token: null})
@@ -68,7 +69,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 		console.log("Error loading message from backend", error)
 			// 	}
 			// },
-			getMessage: async () => {
+			getMessage: () => {
 					const store = getStore();				
 					const opts = {
 						headers: {
@@ -77,7 +78,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 					}
 					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello", opts)
+					fetch("https://probable-chainsaw-rjprvx5vjqq3xrg6-3001.app.github.dev/api/hello", opts)
 					.then(resp => resp.json())
 					.then(data => setStore({message: data.message}))
 					.catch(error => console.log("Error loading message from backend", error))

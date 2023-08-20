@@ -37,7 +37,7 @@ def create_token():
 def get_hello():
 
     dictionary = {
-        "message": "HELLOOOOOOOOOO HA CARGADO EL MESSAGE"
+        "message": "HELLOOOOOOOOOO HA CARGADO EL MESSAGE. SOLO PUEDES VER ESTO SI ESTAS LOGUEADO: CONGRATULATIONS!!!!!!!!"
     }
 
     return jsonify(dictionary), 200
