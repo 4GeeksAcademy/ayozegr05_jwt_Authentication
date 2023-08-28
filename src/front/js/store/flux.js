@@ -55,7 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ message: "" })
 				const token = localStorage.removeItem("token")
 				console.log("APlication just loaded synching the local Storage Token")
-				setStore({token: null})
+				setStore({token: null}) //mimimi
 			},
 			// getMessage: async () => {
 			// 	try{
