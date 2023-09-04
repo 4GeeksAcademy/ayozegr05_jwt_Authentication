@@ -26,8 +26,12 @@ api = Blueprint('api', __name__)
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    if email != "test" or password != "test":
-        return jsonify({"msg": "Bad email or password"}), 401
+    
+    # Consulta la base de datos para verificar las credenciales
+    user = User.query.filter_by(email=email, password=password).first()
+
+    if not user:
+        return jsonify({"msg": "Credenciales incorrectas"}), 401
 
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
@@ -41,3 +45,31 @@ def get_hello():
     }
 
     return jsonify(dictionary), 200
+
+
+@api.route('/users', methods=['POST', 'GET'])
+def handle_users():
+    if request.method =='GET':
+        # response_body = {"message": "Esto devuelve el get del endpooint users"}
+        users = db.session.execute(db.select(User).order_by(User.email)).scalars()
+        results =[item.serialize() for item in users]
+        response_body ={
+            "message":"Esto devuelve el endpoint de userst el GET",
+            "results": results,
+            "status": "ok" }
+        return response_body, 200
+    if request.method =='POST':
+        request_body = request.get_json()
+        print(request_body)
+        user = User(                                     #Creamos una instancia de user
+                    email = request_body["email"],
+                    password = request_body['password'],
+                    is_active = True)
+        db.session.add(user)
+        db.session.commit()
+        response_body = {
+            "message": "Adding new user",
+            "status": "ok",
+            "new_user": request_body}
+        # response_body = {"message": "Esto devuelve el POST del endpooint users"}
+        return response_body, 200

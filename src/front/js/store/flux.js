@@ -21,6 +21,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
+			register: async (email, password, is_active) => {
+				const opts = {
+				  method: 'POST',
+				  headers: {
+					"Content-Type": "application/json"
+				  },
+				  body: JSON.stringify({
+					"email": email,
+					"password": password,
+					"is_active" : true
+				  })
+				};
+				try {
+				  const resp = await fetch('https://shiny-spork-4xwg9rppw762q4rp-3001.app.github.dev/api/users', opts);
+				  if (resp.status !== 200) {
+					alert("There has been some error");
+					return false;
+				  }
+				  const data = await resp.json();
+				  console.log("Registration successful", data);
+				  // Aquí redirijo a login
+				  return true;
+				} catch (error) {
+				  console.error("Error during registration", error);
+				  return false;
+				}
+			},
 			login: async (email, password) => {
 				const opts = {
 					method: 'POST',
@@ -33,7 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 				} 
 				try{
-					const resp = await fetch('https://probable-chainsaw-rjprvx5vjqq3xrg6-3001.app.github.dev/api/token', opts)
+					const resp = await fetch('https://shiny-spork-4xwg9rppw762q4rp-3001.app.github.dev/api/token', opts)
 					if(resp.status !== 200) {
 					alert("There has been some error")
 					return false
